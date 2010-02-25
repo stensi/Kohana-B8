@@ -1,0 +1,6 @@
+Kohana B8 is a port by Simon Stenhouse of Tobias Leupold's PHP5 b8 into a module for the Kohana 3 PHP Framework.
+
+The original b8 can be found at:
+http://nasauber.de/opensource/b8/
+
+Take a look at the B8 controller class for an example of usages.
