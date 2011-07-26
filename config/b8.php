@@ -3,6 +3,32 @@
 return array
 (
 	/**
+	 * Which type of classify return value to use.
+	 */
+	'use_classify' => 'default',
+	
+	/**
+	 * Settings for classify return value.
+	 */
+	'classify' => array
+	(
+		// Return a float between 0 (ham) and 1 (spam)
+		'default' => 'float',
+		
+		// Return a predefined constant based on lower (ham) and upper (spam) ranges
+		'const' => array
+		(
+			// Text classified as this value or lower are B8::HAM
+			'ham' => 0.2,
+					
+			// Text classified as this value or higher are B8::SPAM
+			'spam' => 0.8,
+			
+			// Text classified between ham and spam are B8::UNSURE
+		),
+	),
+
+	/**
 	 * Which lexer to use. There's just one lexer at the moment (default).
 	 */
 	'use_lexer' => 'default',
@@ -23,21 +49,6 @@ return array
 
 			// Whether pure numbers can be a word
 			'allow_numbers' => FALSE,
-
-			// Words to ignore as they are so common that they can always be considered neutral
-			'ignore_words' => array
-			(
-				'a',     'about', 'after',   'all',    'also',  'an',   'and',   'any',   'are',  'as', 
-				'at',    'be',    'because', 'but',    'by',    'can',  'come',  'could', 'did',  'do', 
-				'for',   'from',  'get',     'give',   'go',    'had',  'have',  'he',    'her',  'him', 
-				'his',   'how',   'i',       'if',     'in',    'into', 'it',    'its',   'just', 'knew', 
-				'know',  'like',  'look',    'make',   'many',  'me',   'more',  'most',  'my',   'new', 
-				'no',    'not',   'now',     'of',     'on',    'only', 'or',    'other', 'our',  'out', 
-				'over',  'see',   'she',     'should', 'so',    'some', 'take',  'than',  'that', 'the', 
-				'their', 'them',  'then',    'there',  'these', 'they', 'think', 'this',  'to',   'up', 
-				'us',    'use',   'want',    'was',    'way',   'we',   'well',  'were',  'what', 'when', 
-				'where', 'which', 'who',     'why',    'will',  'with', 'would', 'you',   'your',
-			),
 		),
 	),
 
@@ -75,8 +86,8 @@ return array
 
 	/**
 	 * The number of words to use when classifying longer texts. The higher this
-	 * value is, the more will the filter fail on texts including passages from
-	 * books, etc.
+	 * value is, the more likely the filter will fail on texts including passages
+	 * from books, etc.
 	 *
 	 * Default: 15
 	 */

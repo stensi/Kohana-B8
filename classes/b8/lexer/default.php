@@ -33,7 +33,7 @@ class B8_Lexer_Default extends Lexer {
 	public function __construct(array $config = array())
 	{
 		// Load the lexer default config file
-		$this->config = Kohana::config('b8.lexer.default');
+		$this->config = Kohana::$config->load('b8.lexer.default');
 
 		// Overwrite with custom config settings
 		foreach ($config as $key => $value)
@@ -169,12 +169,6 @@ class B8_Lexer_Default extends Lexer {
 			{
 				return FALSE;
 			}
-		}
-
-		// Ignore words that are always considered neutral
-		if (in_array(strtolower($word), $this->config['ignore_words']) OR in_array(Inflector::singular($word), $this->config['ignore_words']))
-		{
-			return FALSE;
 		}
 
 		// Word is valid

@@ -28,6 +28,7 @@ class B8_Core {
 	protected $processed_words = array();
 
 	// Constants
+	const UNSURE  = 'unsure';
 	const SPAM    = 'spam';
 	const HAM     = 'ham';
 	const LEARN   = 'learn';
@@ -53,7 +54,7 @@ class B8_Core {
 	public function __construct(array $config = array())
 	{
 		// Load the lexer default config file
-		$this->config = Kohana::config('b8');
+		$this->config = Kohana::$config->load('b8');
 
 		// Overwrite with custom config settings
 		foreach ($config as $key => $value)
@@ -73,9 +74,10 @@ class B8_Core {
 	 * The value will be between 0 (ham) and 1 (spam).
 	 *
 	 * @param   string  text to classify
+	 * @param   string  which type of classify return value to use
 	 * @return  float   probability
 	 */
-	public function classify($text)
+	public function classify($text, $use_classify = NULL)
 	{
 		// Get total texts learned in ham and spam
 		$total[self::HAM] = $this->storage->get_total(self::HAM);
@@ -208,6 +210,26 @@ class B8_Core {
 		// We want a value between 0 and 1, not between -1 and +1
 		$probability = (1 + $probability) / 2;
 
+		// Return as a predefined constant
+		if (($use_classify != NULL AND $use_classify == 'const') OR $this->config['use_classify'] == 'const')
+		{
+			$use_classify = 'const';
+			
+			if ($probability <= $this->config['classify'][$use_classify]['ham'])
+			{
+				return B8::HAM;
+			}
+			else if ($probability >= $this->config['classify'][$use_classify]['spam'])
+			{
+				return B8::SPAM;
+			}
+			else
+			{
+				return B8::UNSURE;
+			}
+		}
+
+		// Return as a float
 		return $probability;
 	}
 
@@ -225,7 +247,6 @@ class B8_Core {
 		// number of times the word occurred to calculate a relative spamminess
 		// because we count words appearing multiple times not just once but
 		// as often as they appear in the learned texts
-
 
 		if ($total[self::HAM] > 0)
 		{

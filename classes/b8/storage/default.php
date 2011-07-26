@@ -30,7 +30,7 @@ class B8_Storage_Default extends Storage {
 	public function __construct(array $config = array())
 	{
 		// Load the storage default config file
-		$this->config = Kohana::config('b8.storage.default');
+		$this->config = Kohana::$config->load('b8.storage.default');
 
 		// Overwrite with custom config settings
 		foreach ($config as $key => $value)
@@ -70,7 +70,7 @@ class B8_Storage_Default extends Storage {
 		$stored_words               = array();
 		$missing_words              = array();
 		$final_words                = array();
-		$final_words['words']      = array();
+		$final_words['words']       = array();
 		$final_words['degenerates'] = array();
 
 		// Get stored words
@@ -85,6 +85,7 @@ class B8_Storage_Default extends Storage {
 		{
 			$stored_words[$result['word']] = array(B8::HAM => $result[B8::HAM], B8::SPAM => $result[B8::SPAM]);
 		}
+		
 		// Compare words to process with stored words
 		foreach ($words as $word)
 		{

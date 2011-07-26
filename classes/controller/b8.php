@@ -10,13 +10,10 @@
  *
  * @license http://www.gnu.org/licenses/lgpl.txt
  */
-class Controller_B8 extends Controller_Template {
+class Controller_B8 extends Controller {
 
 	public function action_index()
 	{
-		$this->template = View::factory('b8')
-			->bind('message', $message);
-
 		$B8 = B8::factory();
 
 		// Check for action
@@ -35,7 +32,7 @@ class Controller_B8 extends Controller_Template {
 					case 'Classify':
 						$probability = $B8->classify($_POST['text']);
 
-						$message = '<p>Classification: '.$this->format_probability($probability).'</p>';
+						$message = '<p>Classification: '.$this->format_probability($probability).' ('.$B8->classify($_POST['text'], 'const').')</p>';
 
 						break;
 
@@ -89,6 +86,8 @@ class Controller_B8 extends Controller_Template {
 				}
 			}
 		}
+		
+		$this->response->body(View::factory('b8')->bind('message', $message));
 	}
 
 	protected function format_probability($probability)

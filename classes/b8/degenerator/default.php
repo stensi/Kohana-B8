@@ -100,7 +100,7 @@ class B8_Degenerator_Default extends Degenerator {
 			{
 				while(preg_match('/[\.]$/', $degenerate))
 				{
-					$degenerates[] = substr($degenerate, 0, strlen($degenerate) - 1);
+					$degenerates[] = $degenerate = substr($degenerate, 0, strlen($degenerate) - 1);
 				}
 			}
 			else
